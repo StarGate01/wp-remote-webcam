@@ -25,7 +25,6 @@ add_action('rest_api_init', function () {
     ]);
 });
 
-
 function webcam_stream_image() {
     $ch = curl_init(WEBCAM_REMOTE_URL);
 
@@ -44,14 +43,18 @@ function webcam_stream_image() {
         return new WP_Error('image_fetch_failed', 'Unable to retrieve remote image.', ['status' => 502]);
     }
 
-    $mime_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
     curl_close($ch);
 
-    header('Content-Type: ' . esc_html($mime_type));
-    echo $image;
+    $src_image = imagecreatefromstring($image);
+    if (!$src_image) {
+        return new WP_Error('image_processing_failed', 'Failed to create image from string.', ['status' => 500]);
+    }
+
+    $resized_image = imagescale($src_image, 640, 480);
+    header('Content-Type: image/jpeg');
+    imagejpeg($resized_image);
+
+    imagedestroy($src_image);
+    imagedestroy($resized_image);
     exit;
 }
-
-add_shortcode('remote_webcam', function () {
-    return '<img src="' . esc_url(rest_url('wp-remote-webcam/img')) . '" alt="Remote Webcam Image">';
-});
