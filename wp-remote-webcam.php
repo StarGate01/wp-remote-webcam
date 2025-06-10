@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Plugin Name: Remote Webcam (Streaming, Minimal)
- * Description: Securely streams a remote image using HTTP Basic Auth. No caching. URL and credentials are hidden.
- * Version: 1.4
+ * Plugin Name: Remote Webcam
+ * Description: Securely streams a remote image using HTTP
+ * Version: 1.5
  * Author: Christoph Honal
  */
 
