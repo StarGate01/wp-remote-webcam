@@ -50,7 +50,7 @@ function webcam_stream_image() {
         return new WP_Error('image_processing_failed', 'Failed to create image from string.', ['status' => 500]);
     }
 
-    $resized_image = imagescale($src_image, 640, 480);
+    $resized_image = imagescale($src_image, 1280, 720);
     header('Content-Type: image/jpeg');
     imagejpeg($resized_image);
 
